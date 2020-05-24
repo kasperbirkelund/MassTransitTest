@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  consoleapp6:
+    image: ${DOCKER_REGISTRY-}consoleapp6
+    build:
+      context: .
+      dockerfile: ConsoleApp6/Dockerfile
+  
+  mongo:
+      image: mongo
+      restart: always
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: example
+      ports:
+        - 27017:27017
+
+  mongo-express:
+      image: mongo-express
+      restart: always
+      ports:
+        - 8081:8081
+      environment:
+        ME_CONFIG_MONGODB_ADMINUSERNAME: root
+        ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      depends_on:
+        - mongo
+
+  consumer2:
+    image: ${DOCKER_REGISTRY-}consumer2
+    build:
+      context: .
+      dockerfile: Consumer2/Dockerfile
+

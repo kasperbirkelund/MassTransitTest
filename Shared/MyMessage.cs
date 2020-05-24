@@ -1,11 +1,8 @@
-﻿namespace Shared
-{
-    public interface IMyMessage
-    {
-        string Text { get; set; }
-    }
+﻿using System;
 
-    public class MyMessage : IMyMessage
+namespace Shared
+{
+    public class MyMessage
     {
         public string Text { get; set; }
     }

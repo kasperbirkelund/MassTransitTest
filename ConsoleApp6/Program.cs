@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MassTransit;
-using MassTransit.Audit;
 using MassTransit.EntityFrameworkCoreIntegration.Audit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Shared;
 
 namespace ConsoleApp6
@@ -22,7 +20,11 @@ namespace ConsoleApp6
 
             var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
-                cfg.Host("rabbitmq://localhost");
+                cfg.Host(Config.Host, x =>
+                {
+                    x.Password(Config.Password);
+                    x.Username(Config.Username);
+                });
             });
             
             DbContextOptionsBuilder<AuditDbContext> builder = new DbContextOptionsBuilder<AuditDbContext>();
