@@ -5,6 +5,6 @@
         public static string 
             Host = "rabbitmq://localhost",
             Username = "rabbitmquser",
-            Password = "DEBmbwkSrzy9D1T9cJfa";
+            Password = "DEBmbwkSrzy9D1T9cJfa"; //this password should be reflected in your rabbit setup. Just for DEMO purpose.
     }
 }
