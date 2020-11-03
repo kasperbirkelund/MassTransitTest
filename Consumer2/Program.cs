@@ -1,6 +1,9 @@
+using GreenPipes;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using Shared;
 
 namespace Consumer2
@@ -18,19 +21,25 @@ namespace Consumer2
                 {
                     services.AddMassTransit(x =>
                     {
-                        x.AddBus(context => Bus.Factory.CreateUsingRabbitMq(cfg =>
-                        {
-                            cfg.Host(Config.Host, x =>
-                            {
-                                x.Password(Config.Password);
-                                x.Username(Config.Username);
-                            });
-                            cfg.ReceiveEndpoint("test_queue", ep =>
-                            {
-                                ep.Consumer<MyMessageConsumer>();
-                            });
-                        }));
+                        // add the consumer to the container
+                        x.AddConsumer<MyMessageConsumer>();
                     });
+                    services.AddTransient<IMyDependency, MyDependency>();
+                    services.AddSingleton(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                    {
+                        LoggerFactory f = new LoggerFactory();
+                        f.AddProvider(new ConsoleLoggerProvider(new MCalss()));
+                        cfg.SetLoggerFactory(f);
+                        cfg.Host(Config.Host, x =>
+                        {
+                            x.Password(Config.Password);
+                            x.Username(Config.Username);
+                        });
+                        cfg.ReceiveEndpoint("test_queue", e =>
+                        {
+                            e.Consumer<MyMessageConsumer>(provider);
+                        });
+                    }));
 
                     services.AddSingleton<IHostedService, BusService>();
                 })

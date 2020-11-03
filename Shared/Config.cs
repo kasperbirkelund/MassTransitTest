@@ -3,8 +3,8 @@
     public static class Config
     {
         public static string 
-            Host = "rabbitmq://localhost",
-            Username = "rabbitmquser",
-            Password = "DEBmbwkSrzy9D1T9cJfa";
+            Host = "rabbitmq://localhost:15672",
+            Username = "guest",
+            Password = "guest";
     }
 }

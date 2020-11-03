@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using MassTransit;
 using MassTransit.EntityFrameworkCoreIntegration.Audit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Options;
 using Shared;
 
 namespace ConsoleApp6
@@ -18,6 +21,9 @@ namespace ConsoleApp6
         {
             const string cons = @"Server=.\SQLEXPRESS;Database=Cv;Trusted_Connection=true";
 
+            LoggerFactory f = new LoggerFactory();
+            f.AddProvider(new ConsoleLoggerProvider(new MCalss()));
+
             var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
                 cfg.Host(Config.Host, x =>
@@ -25,13 +31,15 @@ namespace ConsoleApp6
                     x.Password(Config.Password);
                     x.Username(Config.Username);
                 });
+                //cfg.Host().Settings
+                cfg.SetLoggerFactory(f);
             });
             
             DbContextOptionsBuilder<AuditDbContext> builder = new DbContextOptionsBuilder<AuditDbContext>();
             builder.UseSqlServer(cons);
             var auditStore = new EntityFrameworkAuditStore(builder.Options, "rabbitAudit");
-            
-            
+            //https://dev.to/etnicholson/developing-a-crudapi-with-asp-net-core-mongodb-docker-swagger-cf4
+
             busControl.ConnectSendAuditObservers(auditStore);
             //busControl.ConnectConsumeAuditObserver(auditStore);
 
