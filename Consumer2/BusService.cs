@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
+//Test
 
 namespace Consumer2
 {
