@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using MassTransit;
 using Shared;
+//Test
 
 namespace Consumer2
 {
