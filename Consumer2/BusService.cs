@@ -12,6 +12,18 @@ namespace Consumer2
         public BusService(IBusControl busControl)
         {
             _busControl = busControl;
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

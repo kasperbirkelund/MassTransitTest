@@ -49,6 +49,27 @@ namespace ConsoleApp6
             {
                 do
                 {
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     string value = await Task.Run(() =>
                     {
                         Console.WriteLine("Enter message (or quit to exit)");
